@@ -14,5 +14,6 @@ Thumbs.db
 *.pyc
 
 db.sqlite3
-Makefile
 *.txt
+
+.gitignore
