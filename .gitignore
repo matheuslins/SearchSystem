@@ -16,4 +16,4 @@ Thumbs.db
 db.sqlite3
 *.txt
 
-.gitignore
+gitignore
