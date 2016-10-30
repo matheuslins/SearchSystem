@@ -42,6 +42,8 @@ DEFAULT_APPS = [
 THIRD_PARTY_APPS = [
     
     'rest_framework',
+    'djcelery',
+    'widget_tweaks',
 ]
 
 PROJECT_APPS = [

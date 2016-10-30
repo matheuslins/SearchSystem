@@ -1,0 +1,34 @@
+{% extends "core/index.html" %}
+{% load widget_tweaks %}
+
+<html>
+<body>
+{% block navbar %}
+	{{block.super}}
+{% endblock %}
+{% block content %}
+	{% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="content">
+        	<div class="row">
+        		<div class="col-md-4 col-md-offset-4">
+						<label>Nome:</label> {{box.name}}
+						<label>Número:</label>{{box.number}}
+						<p>{{box.content}}</p>
+						<div class="row text-center">
+							<a href="{% url 'core:list_box' %}"><button class="btn btn-primary">Voltar</button></a>
+						</div>
+			    </div>
+        	</div>
+        </div>	
+{% endblock %}
+</body>
+</html>

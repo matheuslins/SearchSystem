@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import Box
+from django.contrib import messages
 import operator
 from django.db.models import Q
 from django.core.urlresolvers import reverse_lazy
@@ -24,7 +25,7 @@ class ListBoxView(generic.ListView):
 			reduce(operator.and_,
 				(Q(name__icontains=search) for search in query_list))
 			)
-		return result.order_by('create_date')
+		return result.order_by('name')
 
 	def get_context_data(self, **kwargs):
 		context = super(ListBoxView, self).get_context_data(**kwargs)
@@ -46,7 +47,7 @@ class ListBoxView(generic.ListView):
 
 class CreateBoxView(generic.edit.CreateView):
 
-	template_name = 'category/create.html'
+	template_name = 'core/create.html'
 	form_class = BoxForm
 	success_url = reverse_lazy('core:list_box')
 
@@ -77,3 +78,67 @@ class DeleteBoxView(generic.DeleteView):
 	def get_success_url(self):
 		messages.success(self.request,'Box deleted successfully!')
 		return reverse_lazy('core:list_box')
+
+class DetailBoxView(generic.DetailView):
+
+	model = Box
+	context_object_name = 'boxes'
+	template_name = 'core/view.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(DetailBoxView, self).get_context_data(**kwargs)
+		context['box'] = self.object
+		return context
+
+# from django.shortcuts import render
+# from .models import Box
+# import operator
+# from django.db.models import Q
+# from django.core.urlresolvers import reverse_lazy
+# from rest_framework.renderers import TemplateHTMLRenderer
+# from functools import reduce
+# from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+# from .serializers import BoxSerializer
+# from rest_framework import generics
+
+# class ListBox(generics.ListCreateAPIView):
+
+# 	renderer_classes = [TemplateHTMLRenderer]
+# 	template_name = 'core/index.html'
+# 	queryset = Box.objects.all()
+# 	serializer_class = BoxSerializer
+# 	# paginator = 4
+
+# 	def get_queryset(self):
+
+# 		result = super(ListBox, self).get_queryset()
+# 		box_search = self.request.GET.get('search', None)
+# 		if box_search:
+# 			query_list = box_search.split()
+# 			result = result.filter(
+# 			reduce(operator.and_,
+# 			(Q(name__icontains=search) for search in query_list)))
+# 		return result
+
+# 	def get_serializer_context(self):
+# 		context = super(ListBox, self).get_serializer_context()
+# 		return context
+
+	# def paginate_queryset(self, queryset):
+
+	# 	paginator = Paginator(self.queryset, self.paginator)
+	# 	page = self.request.GET.get('page')
+
+	# 	try:
+	# 		self.queryset = paginator.page(page)
+	# 	except PageNotAnInteger:
+	# 		self.queryset = paginator.page(1)
+	# 	except EmptyPage:
+	# 		self.queryset = paginator.page(paginator.num_pages)
+
+	# 	return page
+
+
+# class BoxDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Box.objects.all()
+#     serializer_class = BoxSerializer
