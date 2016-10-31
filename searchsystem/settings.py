@@ -42,7 +42,7 @@ DEFAULT_APPS = [
 THIRD_PARTY_APPS = [
     
     'rest_framework',
-    'djcelery',
+    # 'djcelery',
     'widget_tweaks',
 ]
 

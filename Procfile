@@ -1,1 +1,1 @@
-web: gunicorn searchsystem.wsgi --worker-class gevent
+web: gunicorn searchsystem.wsgi --log-file -
