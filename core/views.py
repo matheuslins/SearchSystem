@@ -17,7 +17,7 @@ class ListBoxView(generic.ListView):
 	template_name = 'core/index.html'
 	queryset = Box.objects.all()
 	context_object_name = 'boxes'
-	paginate_by = 4
+	paginate_by = 500
 
 	def get_queryset(self):
 
@@ -46,6 +46,7 @@ class ListBoxView(generic.ListView):
 		    list_box = paginator.page(paginator.num_pages)
 
 		context['list_box'] = list_box
+		context['four_lasted'] = self.queryset.order_by('-id')[:4]
 
 		return context
 
@@ -67,7 +68,7 @@ class UpdateBoxView(generic.UpdateView):
 
 	def get_success_url(self):
 		messages.success(self.request, 'Box updated successfully!')
-		return reverse_lazy('core:update_box', kwargs={'id' : self.object.id})
+		return reverse_lazy('core:update_box', kwargs={'pk' : self.object.pk})
 
 	@receiver(post_save, sender=Box)
 	def put(sender, instance, *args, **kwargs):

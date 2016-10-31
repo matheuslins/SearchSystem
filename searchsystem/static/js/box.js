@@ -41,3 +41,26 @@ function delete_box(url, box, message, return_url) {
         });
     });
 }
+/*
+*
+* Function to delete a box
+*
+*/
+function random_box(url, id, message, return_url) {
+    alertify.confirm(message, function(){
+        var csrftoken = getCookie('csrftoken');
+
+        $.ajax({
+            method: 'post',
+            beforeSend: function (request) {
+                request.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            url: url,
+            success: function(data) {
+                alertify.alert('Random Box', 'Creating...', function(){
+                    window.location.href = return_url;
+                });
+            }
+        });
+    });
+}

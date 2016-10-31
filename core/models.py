@@ -1,5 +1,4 @@
 from django.db import models
-from autoslug.fields import AutoSlugField
 
 class Box(models.Model):
 	name = models.CharField('Nome', max_length=100)
