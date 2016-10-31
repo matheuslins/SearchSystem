@@ -1,0 +1,96 @@
+{% extends "core/index.html" %}
+{% load widget_tweaks %}
+
+<html>
+<body>
+{% block navbar %}
+    {{block.super}}
+{% endblock %}
+{% block content %}
+    {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="col-md-6 col-md-offset-3">
+                <div class="well">
+                    <form id="searchform" action="{% url 'core:log' %}" method="get" accept-charset="utf-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="search" placeholder="Search Boxes">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            </span>
+                        </div>
+                    <!-- /.input-group -->
+                    </form>
+                 </div>
+            </div>
+        <div class="content">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+
+                    <table class="table">
+                      <thead class="thead-inverse">
+                        <tr>
+                          <th>ID</th>
+                          <th>Caixa</th>
+                          <th>Data do registro</th>
+                          <th>Data de criação da caixa</th>
+                          <th>Status</th>
+                          <th>Data de atualização da caixa</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for log in logs %}
+                            <tr>
+                              <th scope="row">{{log.id}}</th>
+                              <td>{{log.box.name}}</td>
+                              <td>{{log.datetime}}</td>
+                              <td>{{log.box.create_date}}</td>
+                              <td>{{log.status}}</td>
+                              {% if log.box.date_update %}
+                                <td>{{log.box.date_update}}</td>
+                              {% else %}
+                                <td>---</td>
+                              {% endif %}
+                            </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+
+                    <hr>
+
+                    <div class="col-md-12">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li>
+                                        <a href="?page={{ page_obj.previous_page_number }}"><span><<</span></a>
+                                    </li>
+                                {% endif %}
+                                {% for page_number in paginator.page_range %}
+                                    <li{% if page_obj.number == page_number %} class="active"{% endif %}>
+                                        <a href="?page={{ page_number }}">{{ page_number }}</a>
+                                    </li>
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <li>
+                                        <a href="?page={{ page_obj.next_page_number }}"><span>>></span></a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>  
+{% endblock %}
+</body>
+</html>

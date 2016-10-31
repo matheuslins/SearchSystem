@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Box
+from .models import *
 from django.contrib import messages
 import operator
 from django.db.models import Q
 from django.core.urlresolvers import reverse_lazy
 from functools import reduce
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import BoxForm
+from .forms import *
+from .tasks import *
+from datetime import datetime
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 class ListBoxView(generic.ListView):
 	template_name = 'core/index.html'
@@ -65,6 +69,13 @@ class UpdateBoxView(generic.UpdateView):
 		messages.success(self.request, 'Box updated successfully!')
 		return reverse_lazy('core:update_box', kwargs={'slug' : self.object.slug})
 
+	@receiver(post_save, sender=Box)
+	def put(sender, instance, *args, **kwargs):
+		register_update_box = BoxLog.objects.create(box=instance, datetime=datetime.now(), status=2)
+		register_update_box.date_update=datetime.now()
+		register_update_box.save()
+		return register_update_box
+
 class DeleteBoxView(generic.DeleteView):
 
 	model = Box
@@ -89,6 +100,54 @@ class DetailBoxView(generic.DetailView):
 		context = super(DetailBoxView, self).get_context_data(**kwargs)
 		context['box'] = self.object
 		return context
+
+class LogView(generic.ListView):
+
+	template_name = 'core/log.html'
+	queryset = BoxLog.objects.all()
+	context_object_name = 'logs'
+	paginate_by = 10
+
+	def get_queryset(self):
+
+		result = super(LogView, self).get_queryset()
+		box_search = self.request.GET.get('search', None)
+		if box_search:
+			query_list = box_search.split()
+			result = result.filter(
+			reduce(operator.and_,
+				(Q(box__name__icontains=search) for search in query_list))
+			)
+		return result.order_by('datetime')
+
+	def get_context_data(self, **kwargs):
+		context = super(LogView, self).get_context_data(**kwargs)
+		list_box_log = BoxLog.objects.all().order_by('create_date')
+
+		paginator = Paginator(list_box_log, self.paginate_by)
+		page = self.request.GET.get('page')
+
+		try:
+		    list_box_log = paginator.page(page)
+		except PageNotAnInteger:
+		    list_box_log = paginator.page(1)
+		except EmptyPage:
+		    list_box_log = paginator.page(paginator.num_pages)
+
+		context['list_box_log'] = list_box_log
+
+		return context
+
+@receiver(post_save, sender=Box)
+def create_log_add_box(sender, **kwargs):
+	box_log = BoxLog.objects.create(box=kwargs.get('instance'), datetime = datetime.now(), status=1)
+	return box_log
+
+@receiver(post_delete, sender=Box)
+def create_log_delete_box(sender, instance, *args, **kwargs):
+	register_delete_box = BoxLog.objects.create(box=instance, datetime=datetime.now(), status=3)
+	return register_delete_box
+
 
 # from django.shortcuts import render
 # from .models import Box

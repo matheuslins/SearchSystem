@@ -44,6 +44,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'djcelery',
     'widget_tweaks',
+    'kombu.transport.django',
 ]
 
 PROJECT_APPS = [
@@ -126,6 +127,37 @@ USE_L10N = True
 
 USE_TZ = True
 
+#Celery Config
+# CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
+
+import djcelery
+djcelery.setup_loader()
+
+# BROKER_HOST = "localhost"
+# BROKER_PORT = 7000
+# BROKER_USER = "guest"
+# BROKER_PASSWORD = "guest"
+# CELERY STUFF
+
+CELERY_ALWAYS_EAGER = True
+
+BROKER_URL = 'redis://localhost:6379'
+
+CELERY_RESULT_BACKEND = 'redis://localhost:7000'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'America/Recife'
+
+from datetime import timedelta
+
+CELERYBEAT_SCHEDULE = {
+    'run-every-2-seconds':{
+        'task': 'core.task.collect_all_perfils',
+        'schedule': timedelta(seconds=2),
+        'args': ()
+    },
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
