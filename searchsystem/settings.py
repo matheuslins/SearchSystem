@@ -44,7 +44,6 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'djcelery',
     'widget_tweaks',
-    'kombu.transport.django',
 ]
 
 PROJECT_APPS = [
