@@ -134,7 +134,7 @@ class LogView(generic.ListView):
 		except EmptyPage:
 		    list_box_log = paginator.page(paginator.num_pages)
 
-		context['list_box_log'] = list_box_log
+		context['list_box_log'] = list_box_log.order_by('datetime')
 
 		return context
 
