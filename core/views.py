@@ -67,7 +67,7 @@ class UpdateBoxView(generic.UpdateView):
 
 	def get_success_url(self):
 		messages.success(self.request, 'Box updated successfully!')
-		return reverse_lazy('core:update_box', kwargs={'slug' : self.object.slug})
+		return reverse_lazy('core:update_box', kwargs={'id' : self.object.id})
 
 	@receiver(post_save, sender=Box)
 	def put(sender, instance, *args, **kwargs):
@@ -147,6 +147,19 @@ def create_log_add_box(sender, **kwargs):
 def create_log_delete_box(sender, instance, *args, **kwargs):
 	register_delete_box = BoxLog.objects.create(box=instance, datetime=datetime.now(), status=3)
 	return register_delete_box
+
+def baixar_dados_api():
+	import urllib.request
+	import json
+
+	r = urllib.request.urlopen('http://uinames.com/api/?amount=25').read().decode('utf8')
+	r = json.loads(r)
+	numero = 0
+	new_box = None
+	for value in r:
+		new_box = Box.objects.create(name=value['name'], number=numero, content=value['region'])
+		numero = numero + 1
+	return new_box
 
 
 # from django.shortcuts import render

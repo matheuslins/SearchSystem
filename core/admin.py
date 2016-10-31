@@ -2,8 +2,8 @@ from django.contrib import admin
 from .models import Box, BoxLog
 
 class BoxAdmin(admin.ModelAdmin):
-	list_display = ['name', 'slug']
-	search_fields = ['name', 'slug']
+	list_display = ['name', 'id']
+	search_fields = ['name', 'id']
 
 class BoxLogAdmin(admin.ModelAdmin):
 	list_display = ['datetime']
