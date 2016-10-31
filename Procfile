@@ -1,1 +1,1 @@
-web: gunicorn searchsystem:core --worker-class gevent
+web: gunicorn searchsystem.wsgi --worker-class gevent
