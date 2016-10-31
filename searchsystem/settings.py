@@ -152,7 +152,7 @@ from datetime import timedelta
 
 CELERYBEAT_SCHEDULE = {
     'run-every-2-seconds':{
-        'task': 'core.task.collect_all_perfils',
+        'task': 'core.tasks.baixar_dados_api',
         'schedule': timedelta(seconds=2),
         'args': ()
     },
