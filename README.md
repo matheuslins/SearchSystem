@@ -73,6 +73,6 @@ redis-server
 ***
 # 2 - Liks
 
-Aplicação no Heroku: http://searchsystem.herokuapp.com
+Aplicação no Heroku:
 
 API: http://uinames.com/api/?amount=25
