@@ -50,13 +50,19 @@ rode o projeto na porta 7000
 
 # 2 -  GERANDO OS DADOS
 
+#### Rode o Redis
+
+```bash
+redis-server
+```
+
 ** Sincronamente...
 
-#### 1.1 No seu terminal, rode o ambiente shell do Python
+#### No seu terminal, rode o ambiente shell do Python
 ```bash
 ./manage.py shell
 ```
-#### 1.2 Importe o arquivo onde está a função que cria os objetos de acordo com a API
+#### Importe o arquivo onde está a função que cria os objetos de acordo com a API
 ```bash
 from core.tasks import baixar_dados_api
 ```
@@ -66,7 +72,7 @@ baixar_dados_api()
 ```
 ** Assincrônamente...
 
-#### 1.1 Rode o Celery
+####  Rode o Celery
 
 ```bash
 celery -A searchsystem worker -l info
@@ -74,12 +80,6 @@ celery -A searchsystem worker -l info
 Em seguida:
 ```bash
 baixar_dados_api.delay()
-```
-
-#### 1.2 Rode o Redis
-
-```bash
-redis-server
 ```
 ***
 # 2 - Links
