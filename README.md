@@ -48,7 +48,7 @@ rode o projeto na porta 7000
 
 # 2 -  GERANDO OS DADOS
 
-** No Terminal...
+** Sincronamente...
 
 #### 1.1 No seu terminal, rode o ambiente shell do Python
 ```bash
@@ -58,15 +58,20 @@ rode o projeto na porta 7000
 ```bash
 from core.tasks import baixar_dados_api
 ```
+Em seguida:
 ```bash
 baixar_dados_api()
 ```
-** Por uma tarefa assincrôna
+** Assincrônamente...
 
 #### 1.1 Rode o Celery
 
 ```bash
 celery -A searchsystem worker -l info
+```
+Em seguida:
+```bash
+baixar_dados_api.delay()
 ```
 
 #### 1.2 Rode o Redis
