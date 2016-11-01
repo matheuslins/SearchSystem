@@ -88,6 +88,7 @@ class DeleteBoxView(generic.DeleteView):
 		return context
 
 	def get_success_url(self):
+		create_log_delete_box.delay()
 		messages.success(self.request,'Box deleted successfully!')
 		return reverse_lazy('core:list_box')
 
@@ -143,11 +144,6 @@ class LogView(generic.ListView):
 def create_log_add_box(sender, **kwargs):
 	box_log = BoxLog.objects.create(box=kwargs.get('instance'), datetime = datetime.now(), status=1)
 	return box_log
-
-@receiver(post_delete, sender=Box)
-def create_log_delete_box(sender, instance, *args, **kwargs):
-	register_delete_box = BoxLog.objects.create(box=instance, datetime=datetime.now(), status=3)
-	return register_delete_box
 
 from celery import shared_task, task
 

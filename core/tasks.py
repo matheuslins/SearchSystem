@@ -20,3 +20,8 @@ def baixar_dados_api():
 		new_box = Box.objects.create(name=value['name'], number=numero, content=value['region'])
 		numero = numero + 1
 	return new_box
+
+@shared_task
+def create_log_delete_box(sender, instance, *args, **kwargs):
+	register_delete_box = BoxLog.objects.create(box=instance, datetime=datetime.now(), status=3)
+	return register_delete_box
