@@ -8,6 +8,8 @@
 * Python 3.4
 * Pip
 * Virtualenv
+* Redis
+* Celery
 
 ***
 
@@ -40,39 +42,50 @@ no terminal (na raiz do projeto), rode o comando:
 ```bash
 ./manage.py migrate
 ```
-pronto, agora é só usar o ```./manage.py runserver``` para rodar o projeto.
+rode o projeto na porta 7000
+
+ ```bash
+ ./manage.py runserver 7000
+ ``` 
 
 # 2 -  GERANDO OS DADOS
 
-** No Terminal...
-
-#### 1.1 No seu terminal, rode o ambiente shell do Python
-```bash
-./manage.py shell
-```
-#### 1.2 Importe o arquivo onde está a função que cria os objetos de acordo com a API
-```bash
-from core.tasks import baixar_dados_api
-```
-```bash
-baixar_dados_api()
-```
-** Por uma tarefa assincrôna
-
-#### 1.1 Rode o Celery
-
-```bash
-celery -A searchsystem worker -l info
-```
-
-#### 1.2 Rode o Redis
+#### Rode o Redis
 
 ```bash
 redis-server
 ```
-***
-# 2 - Liks
 
-Aplicação no Heroku: http://searchsystem.herokuapp.com
+** Sincronamente...
+
+#### No seu terminal, rode o ambiente shell do Python
+```bash
+./manage.py shell
+```
+#### Importe o arquivo onde está a função que cria os objetos de acordo com a API
+```bash
+from core.tasks import baixar_dados_api
+```
+Em seguida:
+```bash
+baixar_dados_api()
+```
+** Assincrônamente...
+
+####  Rode o Celery
+
+```bash
+celery -A searchsystem worker -l info
+```
+Em seguida:
+```bash
+baixar_dados_api.delay()
+```
+***
+# 2 - Links
+
+Aplicação no Heroku:
+
+Instalando o Redis: http://redis.io/topics/quickstart
 
 API: http://uinames.com/api/?amount=25
