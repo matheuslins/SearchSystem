@@ -71,7 +71,7 @@ celery -A searchsystem worker -l info
 redis-server
 ```
 ***
-# 2 - Liks
+# 2 - Links
 
 Aplicação no Heroku:
 
