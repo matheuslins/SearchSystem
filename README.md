@@ -8,6 +8,8 @@
 * Python 3.4
 * Pip
 * Virtualenv
+* Redis
+* Celery
 
 ***
 
