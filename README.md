@@ -86,4 +86,6 @@ redis-server
 
 Aplicação no Heroku:
 
+Instalando o Redis: http://redis.io/topics/quickstart
+
 API: http://uinames.com/api/?amount=25
