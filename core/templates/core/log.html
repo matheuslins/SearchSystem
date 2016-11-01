@@ -65,6 +65,9 @@
                               {% if log.status == 3 %}
                                 <td>Deletado</td>
                               {% endif %}
+                              {% if log.status == 4 %}
+                                <td>Visualizado</td>
+                              {% endif %}
                             </tr>
                         {% endfor %}
                       </tbody>

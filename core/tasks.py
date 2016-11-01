@@ -10,14 +10,15 @@ from core.models import Box
 def baixar_dados_api():
 	import urllib.request
 	import json
+	import random
 
 	r = urllib.request.urlopen('http://uinames.com/api/?amount=25').read().decode('utf8')
 	r = json.loads(r)
 	numero = 0
 	new_box = None
 	for value in r:
+		numero = random.choice(range(len(r)))
 		new_box = Box.objects.create(name=value['name'], number=numero, content=value['region'])
-		numero = numero + 1
 	return new_box
 
 @task(name="create_log_delete_box")

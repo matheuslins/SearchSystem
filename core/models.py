@@ -18,6 +18,7 @@ class BoxLog(models.Model):
 		(1, 'Criado'),
 		(2, 'Atualizado'),
 		(3, 'Deletado'),
+		(4, 'Visualizado'),
 	)
 
 	box = models.ForeignKey(Box, verbose_name="Box Log", related_name='log_box')

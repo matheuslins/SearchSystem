@@ -96,6 +96,7 @@ class DetailBoxView(generic.DetailView):
 	template_name = 'core/view.html'
 
 	def get_context_data(self, **kwargs):
+		register_update_box = BoxLog.objects.create(box=self.object, datetime=datetime.now(), status=4)
 		context = super(DetailBoxView, self).get_context_data(**kwargs)
 		context['box'] = self.object
 		return context
