@@ -1,17 +1,14 @@
-from __future__ import absolute_import
-
-from celery import shared_task, task
+from celery import task
 from datetime import timedelta
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task, task
 from core.models import Box
+import urllib.request
+import json
+import random
 
 @periodic_task(run_every=(crontab()), name="baixar_dados_api", ignore_result=True)
 def baixar_dados_api():
-	import urllib.request
-	import json
-	import random
-
 	r = urllib.request.urlopen('http://uinames.com/api/?amount=25').read().decode('utf8')
 	r = json.loads(r)
 	numero = 0

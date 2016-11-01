@@ -190,6 +190,6 @@ STATICFILES_DIRS = (
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 try:
-    from searchsystem.dev import *
+    from searchsystem.local_settings import *
 except ImportError:
     pass

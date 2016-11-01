@@ -1,5 +1,6 @@
-from .models import *
 from django import forms
+from .models import Box, BoxLog
+
 
 class BoxForm(forms.ModelForm):
   class Meta:
