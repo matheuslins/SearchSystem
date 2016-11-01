@@ -7,7 +7,7 @@ from celery.decorators import periodic_task, task
 from core.models import Box
 
 @shared_task
-@periodic_task(run_every=(crontab(minute='*/1')), name="baixar_dados_api", ignore_result=True)
+@periodic_task(run_every=(crontab()), name="baixar_dados_api", ignore_result=True)
 def baixar_dados_api():
 	import urllib.request
 	import json
