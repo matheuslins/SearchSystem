@@ -40,7 +40,11 @@ no terminal (na raiz do projeto), rode o comando:
 ```bash
 ./manage.py migrate
 ```
-pronto, agora é só usar o ```./manage.py runserver``` para rodar o projeto.
+rode o projeto na porta 7000
+
+ ```bash
+ ./manage.py runserver 7000
+ ``` 
 
 # 2 -  GERANDO OS DADOS
 
