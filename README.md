@@ -42,7 +42,9 @@ no terminal (na raiz do projeto), rode o comando:
 ```
 pronto, agora é só usar o ```./manage.py runserver``` para rodar o projeto.
 
-### Gerando os dados
+# 2 -  GERANDO OS DADOS
+
+** No Terminal...
 
 #### 1.1 No seu terminal, rode o ambiente shell do Python
 ```bash
@@ -50,12 +52,24 @@ pronto, agora é só usar o ```./manage.py runserver``` para rodar o projeto.
 ```
 #### 1.2 Importe o arquivo onde está a função que cria os objetos de acordo com a API
 ```bash
-from core.views import baixar_dados_api
+from core.tasks import baixar_dados_api
 ```
 ```bash
 baixar_dados_api()
 ```
+** Por uma tarefa assincrôna
 
+#### 1.1 Rode o Celery
+
+```bash
+celery -A searchsystem worker -l info
+```
+
+#### 1.2 Rode o Redis
+
+```bash
+redis-server
+```
 ***
 # 2 - Liks
 
