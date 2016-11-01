@@ -87,9 +87,12 @@ class DeleteBoxView(generic.DeleteView):
 		context['box'] = self.object
 		return context
 
-	def get_success_url(self):
-		create_log_delete_box.delay()
-		messages.success(self.request,'Box deleted successfully!')
+	def get_success_url(self, *args, **kwargs):
+		import json
+		from django.forms.models import model_to_dict
+		box = self.object
+		box_dic = model_to_dict(box)
+		create_log_delete_box.delay(json.dumps(box_dic), *args, **kwargs)
 		return reverse_lazy('core:list_box')
 
 class DetailBoxView(generic.DetailView):
@@ -108,7 +111,7 @@ class LogView(generic.ListView):
 	template_name = 'core/log.html'
 	queryset = BoxLog.objects.all()
 	context_object_name = 'logs'
-	paginate_by = 10
+	paginate_by = 500
 
 	def get_queryset(self):
 

@@ -22,6 +22,8 @@ def baixar_dados_api():
 	return new_box
 
 @shared_task
-def create_log_delete_box(sender, instance, *args, **kwargs):
-	register_delete_box = BoxLog.objects.create(box=instance, datetime=datetime.now(), status=3)
+def create_log_delete_box(instance, *args, **kwargs):
+	import json
+	date = datetime.now()
+	register_delete_box = BoxLog.objects.create(box=instance, datetime=json.dumps(date), status=3)
 	return register_delete_box

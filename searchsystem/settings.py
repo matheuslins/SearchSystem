@@ -132,13 +132,13 @@ USE_TZ = True
 import djcelery
 djcelery.setup_loader()
 
-# BROKER_HOST = "localhost"
-# BROKER_PORT = 7000
+BROKER_HOST = "localhost"
+BROKER_PORT = 6379
 # BROKER_USER = "guest"
 # BROKER_PASSWORD = "guest"
 # CELERY STUFF
 
-CELERY_ALWAYS_EAGER = True
+CELERY_ALWAYS_EAGER = False
 
 BROKER_URL = 'redis://localhost:6379'
 
