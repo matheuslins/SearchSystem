@@ -40,11 +40,10 @@
                       <thead class="thead-inverse">
                         <tr>
                           <th>ID</th>
-                          <th>Caixa</th>
+                          <th>Nome</th>
                           <th>Data do registro</th>
-                          <th>Data de criação da caixa</th>
+                          <th>Data de criação</th>
                           <th>Status</th>
-                          <th>Data de atualização da caixa</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -54,11 +53,17 @@
                               <td>{{log.box.name}}</td>
                               <td>{{log.datetime}}</td>
                               <td>{{log.box.create_date}}</td>
-                              <td>{{log.status}}</td>
-                              {% if log.box.date_update %}
-                                <td>{{log.box.date_update}}</td>
-                              {% else %}
-                                <td>---</td>
+                              {% if log.status == 0 %}
+                                <td></td>
+                              {% endif %}
+                              {% if log.status == 1 %}
+                                <td>Criado</td>
+                              {% endif %}
+                              {% if log.status == 2 %}
+                                <td>Atulizado</td>
+                              {% endif %}
+                              {% if log.status == 3 %}
+                                <td>Deletado</td>
                               {% endif %}
                             </tr>
                         {% endfor %}

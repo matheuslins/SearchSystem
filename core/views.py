@@ -67,15 +67,9 @@ class UpdateBoxView(generic.UpdateView):
 	form_class = BoxForm
 
 	def get_success_url(self):
+		register_update_box = BoxLog.objects.create(box=self.object, datetime=datetime.now(), status=2)
 		messages.success(self.request, 'Box updated successfully!')
 		return reverse_lazy('core:update_box', kwargs={'pk' : self.object.pk})
-
-	@receiver(post_save, sender=Box)
-	def put(sender, instance, *args, **kwargs):
-		register_update_box = BoxLog.objects.create(box=instance, datetime=datetime.now(), status=2)
-		register_update_box.date_update=datetime.now()
-		register_update_box.save()
-		return register_update_box
 
 class DeleteBoxView(generic.DeleteView):
 
@@ -123,7 +117,7 @@ class LogView(generic.ListView):
 			reduce(operator.and_,
 				(Q(box__name__icontains=search) for search in query_list))
 			)
-		return result.order_by('datetime')
+		return result.order_by('-datetime')
 
 	def get_context_data(self, **kwargs):
 		context = super(LogView, self).get_context_data(**kwargs)
@@ -145,7 +139,7 @@ class LogView(generic.ListView):
 
 @receiver(post_save, sender=Box)
 def create_log_add_box(sender, **kwargs):
-	box_log = BoxLog.objects.create(box=kwargs.get('instance'), datetime = datetime.now(), status=1)
+	box_log = BoxLog.objects.create(box=kwargs.get('instance'), datetime=datetime.now(), status=1)
 	return box_log
 
 from celery import shared_task, task
