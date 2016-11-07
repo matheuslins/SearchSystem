@@ -84,7 +84,7 @@ baixar_dados_api.delay()
 ***
 # 2 - Links
 
-Aplicação no Heroku:
+Aplicação no Heroku: https://searchsystematheus.herokuapp.com/
 
 Instalando o Redis: http://redis.io/topics/quickstart
 
