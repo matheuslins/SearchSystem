@@ -13,6 +13,4 @@ Thumbs.db
 # Compiled Python files
 *.pyc
 
-*.txt
-
 dev.py
