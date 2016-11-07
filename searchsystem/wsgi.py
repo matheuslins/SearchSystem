@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.10/howto/deployment/wsgi/
 import os
 import sys
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'searchsystem.settings.common'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'searchsystem.settings'
 
 from django.core.wsgi import get_wsgi_application
 from dj_static import Cling
